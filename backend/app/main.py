@@ -34,7 +34,7 @@ app = FastAPI(
 # ── CORS ────────────────────────────────────────────────────────
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[settings.FRONTEND_URL, "http://localhost:3000"],
+    allow_origins=["*"],  # Mengizinkan semua akses dari frontend manapun (aman untuk hackathon)
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allow_headers=["Authorization", "Content-Type", "Accept"],

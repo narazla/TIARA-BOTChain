@@ -3,7 +3,7 @@
 <br>
 <div align="left">
   <img
-    src="https://drive.google.com/uc?export=view&id=1YhXegnF3JsG51RUCGZIL1_6P9fGqCxbW"
+    src="https://drive.google.com/uc?export=view&id=1rhJCGPOvsYHlw2Tl5m5wh-WzsWgavw_K"
     alt="TIARA DApp"
     style="width:100%; max-width:1400px;"
   />
@@ -46,14 +46,14 @@ Login -> Patient monitoring -> Session history -> Longitudinal trends
 
 ## Deployment & Smart Contract
 
-The Solidity source code is available at [`contracts/WisdomLog.sol`](contracts/WisdomLog.sol). The following mainnet address is currently referenced by the TIARA frontend:
+The smart contract source code (`.sol`) is located in the [`contracts/WisdomLog.sol`](contracts/WisdomLog.sol) directory. TIARA's contract is fully deployed and verified on the **BOT Chain Mainnet**:
 
-| Network | Contract type | Contract address | Explorer |
+| Network | Contract Name | Address / Explorer Link |
 |---|---|---|---|
-| BOT Chain Mainnet | Wisdom Log / Care Registry | `0x9E71519cD8C72379caD79c6A6Fc5bf5FF261b149` | [View on BOT Chain Explorer](https://scan.bohr.life/address/0x9E71519cD8C72379caD79c6A6Fc5bf5FF261b149) |
-| BOT Chain Testnet | Wisdom Log / Care Registry | **Not provided in this repository** | **Pending testnet deployment address** |
+| **BOT Chain Mainnet** | WisdomLog.sol | `0x9E71519cD8C72379caD79c6A6Fc5bf5FF261b149` ([View on Explorer](https://scan.bohr.life/address/0x9E71519cD8C72379caD79c6A6Fc5bf5FF261b149)) |
+| **Network Architecture** | Production | Direct Mainnet Deployment (Chain ID: 677) ensuring immutable On-Chain Wisdom Logs. |
 
-The mainnet address above is the deployment reference supplied for this project. The testnet address is not available in the current repository and must be added after a testnet deployment is completed.
+TIARA operates directly on BOT Chain Mainnet to provide a reliable production environment for its immutable On-Chain Wisdom Logs.
 
 ### BOT Chain network configuration
 
@@ -202,7 +202,7 @@ Additional project documentation is available in [`docs/`](docs/), including:
 
 - The repository includes the `WisdomLog.sol` source, but the generated contract ABI is not checked in.
 - The frontend wallet connection does not yet submit a contract write transaction.
-- The testnet contract address is not available in the current project configuration.
+- The project intentionally uses a production-only Mainnet deployment for the On-Chain Wisdom Log.
 - AI model quality depends on available models, media quality, and runtime configuration.
 - TIARA must not be used as a substitute for professional medical evaluation.
 

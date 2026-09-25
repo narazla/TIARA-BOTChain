@@ -391,21 +391,6 @@ export default function LandingPage() {
         </motion.div>
       </section>
 
-      {/* ── Footer ───────────────────────────────────────────── */}
-      <footer className="bg-foreground text-muted-foreground/60 py-12">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-2.5">
-              <img src="/Logo.png" alt="TIARA Logo" className="h-[48px] object-contain brightness-0 invert opacity-75" />
-              <span className="text-muted-foreground/40 ml-2 text-sm font-semibold">— AI Cognitive Care Platform</span>
-            </div>
-            <p className="text-xs text-muted-foreground/50 text-center max-w-md md:text-right leading-relaxed">
-              ⚕️ Not a medical diagnosis tool. For informational and caregiver support purposes only.
-              Always consult a healthcare professional for clinical assessment.
-            </p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

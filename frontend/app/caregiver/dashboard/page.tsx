@@ -33,6 +33,7 @@ import {
 import { caregiverApi, guidanceApi } from "@/lib/api";
 import { useAuth } from "@/lib/auth/AuthContext";
 import { ProtectedRoute } from "@/components/shared/ProtectedRoute";
+import ReactMarkdown from 'react-markdown';
 
 interface TrendPoint {
   date: string;
@@ -526,7 +527,7 @@ function CaregiverDashboardContent() {
                     </div>
                   </div>
 
-                  {/* Chat Area */}
+                 {/* Chat Area */}
                   <div className="flex-1 overflow-y-auto p-6 space-y-4">
                     {chatMessages.map((msg) => (
                       <div
@@ -540,7 +541,13 @@ function CaregiverDashboardContent() {
                               : "bg-secondary text-foreground font-medium rounded-bl-none border border-border/60"
                           }`}
                         >
-                          {msg.text}
+                          {msg.sender === "user" ? (
+                            msg.text
+                          ) : (
+                            <div className="prose prose-sm max-w-none dark:prose-invert">
+                              <ReactMarkdown>{msg.text}</ReactMarkdown>
+                            </div>
+                          )}
                         </div>
                       </div>
                     ))}
@@ -554,23 +561,24 @@ function CaregiverDashboardContent() {
                     )}
                     <div ref={chatBottomRef} />
                   </div>
-
+                  
                   {/* Suggested Prompts */}
-                  <div className="bg-secondary/20 border-t border-border/60 px-6 py-3 flex gap-2 flex-wrap">
-                    {[
-                      "How can I help with repetitive questioning?",
-                      "Low-stress activities for early dementia?",
-                      "How to manage nighttime anxiety?",
-                    ].map((prompt) => (
-                      <button
-                        key={prompt}
-                        onClick={() => handleSendChat(prompt)}
-                        className="text-xs font-bold text-primary-dark bg-primary/10 hover:bg-primary/25 border border-primary/20 px-3 py-1.5 rounded-full transition-colors cursor-pointer"
-                      >
-                        {prompt}
-                      </button>
-                    ))}
-                  </div>
+<div className="bg-secondary/20 border-t border-border/60 px-6 py-3 flex gap-2 flex-wrap">
+  {[
+    "How to adapt the living environment for dementia?",
+    "What daily stimulation activities help dementia patients?",
+    "How to maintain a daily routine for dementia care?",
+    "How can caregivers manage emotional stress and burnout?",
+  ].map((prompt) => (
+    <button
+      key={prompt}
+      onClick={() => handleSendChat(prompt)}
+      className="text-xs font-bold text-primary-dark bg-primary/10 hover:bg-primary/25 border border-primary/20 px-3 py-1.5 rounded-full transition-colors cursor-pointer"
+    >
+      {prompt}
+    </button>
+  ))}
+</div>
 
                   {/* Input Form */}
                   <div className="p-4 bg-card border-t border-border flex gap-3">

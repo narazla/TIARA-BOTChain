@@ -49,7 +49,7 @@ Login -> Patient monitoring -> Session history -> Longitudinal trends
 The smart contract source code (`.sol`) is located in the [`contracts/WisdomLog.sol`](contracts/WisdomLog.sol) directory. TIARA's contract is fully deployed and verified on the **BOT Chain Mainnet**:
 
 | Network | Contract Name | Address / Explorer Link |
-|---|---|---|---|
+|---|---|---|
 | **BOT Chain Mainnet** | WisdomLog.sol | `0x9E71519cD8C72379caD79c6A6Fc5bf5FF261b149` ([View on Explorer](https://scan.bohr.life/address/0x9E71519cD8C72379caD79c6A6Fc5bf5FF261b149)) |
 | **Network Architecture** | Production | Direct Mainnet Deployment (Chain ID: 677) ensuring immutable On-Chain Wisdom Logs. |
 

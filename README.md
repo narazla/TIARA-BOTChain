@@ -1,348 +1,211 @@
+# TIARA - AI-Powered Cognitive Care DApp
+
 <br>
 <div align="left">
   <img
     src="https://drive.google.com/uc?export=view&id=1YhXegnF3JsG51RUCGZIL1_6P9fGqCxbW"
-    alt="Tiara"
+    alt="TIARA DApp"
     style="width:100%; max-width:1400px;"
   />
 </div>
 <br>
 
-> **⚕️ Medical Disclaimer**: TIARA is not a medical diagnosis tool. It is a cognitive trend monitoring and caregiver support platform. All outputs are informational only and should not replace professional clinical assessment.
+> **Medical disclaimer:** TIARA is not a medical diagnosis tool. It provides informational cognitive trend monitoring and caregiver support only, and does not replace professional clinical assessment.
 
----
+## Overview
 
-## What is TIARA?
+TIARA (Thinking, Interaction, And Recall Assistant) is an AI-powered cognitive care platform for older adults, caregivers, and healthcare workers.
 
-TIARA (Thinking, Interaction, And Recall Assistant) is an AI-powered early cognitive risk screening and caregiver support platform for elderly users, their caregivers, and healthcare workers.
+The application combines daily AI-guided check-ins with caregiver workflows. It is designed to help families notice changes over time through conversation, voice, video, and language signals, while keeping the user experience supportive and non-clinical.
 
-TIARA uses daily AI-guided conversations — voice, video, and language signals — to monitor cognitive trends over time and surface early indicators that may warrant timely clinical attention.
+The project also includes a Web3 wallet connection for the BOT Chain ecosystem and publishes the deployed contract reference used by the application.
 
-### Core User Flows
+## Core User Flows
 
-```
-Elderly User:
-  Login → Home → Daily Check-In (camera + mic + AI questions) → Warm result
+```text
+Older adult:
+Login -> Home -> Daily check-in -> Video/audio capture -> Supportive result
 
 Caregiver:
-  Profile → PIN Entry → Dashboard Analytics → Alerts → Recommendations → Guidance AI → Reports
+Login -> Caregiver PIN -> Dashboard -> Alerts -> Recommendations -> Guidance AI -> Reports
 
-Healthcare Worker:
-  Login → Patient List → Session History → Longitudinal Trends
+Healthcare worker:
+Login -> Patient monitoring -> Session history -> Longitudinal trends
 ```
-
----
 
 ## Features
 
-- 🎥 **Daily Video/Audio Check-In** — AI-guided spoken questions with real recording
-- 🧠 **AI Analysis Pipeline** — Transcription, voice features, language analysis, risk scoring
-- 📊 **Caregiver Dashboard** — Real-time cognitive trend charts and analytics
-- 🔔 **Smart Alerts** — Pattern-based caregiver notifications
-- 💬 **Dementia Guidance AI** — Evidence-informed caregiver chatbot
-- 📋 **Monthly Reports** — Downloadable care summaries
-- 🏥 **Healthcare Worker Portal** — Patient monitoring dashboard
-- 🔐 **PIN-Protected Caregiver Access** — Shared device safety
+- **Daily video/audio check-in:** AI-guided questions with consent-based media capture.
+- **AI analysis pipeline:** Transcription, voice feature extraction, language analysis, and risk scoring.
+- **Caregiver dashboard:** Cognitive trend charts, patient summaries, alerts, and recommendations.
+- **Dementia Guidance AI:** Evidence-informed caregiver guidance with a medical disclaimer.
+- **Role-based access:** Separate elderly, caregiver, and healthcare worker flows.
+- **Caregiver PIN protection:** An additional access step for sensitive caregiver insights.
+- **BOT Chain wallet connection:** Connects a browser wallet and switches to BOT Chain Mainnet when requested.
+- **On-chain deployment reference:** Provides a public explorer link for the deployed BOT Chain contract address.
 
----
+## Deployment & Smart Contract
 
-## Tech Stack
+The Solidity source code is available at [`contracts/WisdomLog.sol`](contracts/WisdomLog.sol). The following mainnet address is currently referenced by the TIARA frontend:
 
-| Layer | Technology |
-|---|---|
-| Frontend | Next.js 14 + TypeScript + Tailwind CSS + shadcn/ui |
-| Backend | FastAPI + Python + SQLAlchemy + PostgreSQL |
-| Auth | JWT + Passlib (bcrypt) |
-| AI/STT | faster-whisper + librosa + OpenCV |
-| Charts | Recharts |
-| Migrations | Alembic |
-| Infrastructure | Docker + Docker Compose |
+| Network | Contract type | Contract address | Explorer |
+|---|---|---|---|
+| BOT Chain Mainnet | Wisdom Log / Care Registry | `0x9E71519cD8C72379caD79c6A6Fc5bf5FF261b149` | [View on BOT Chain Explorer](https://scan.bohr.life/address/0x9E71519cD8C72379caD79c6A6Fc5bf5FF261b149) |
+| BOT Chain Testnet | Wisdom Log / Care Registry | **Not provided in this repository** | **Pending testnet deployment address** |
 
----
+The mainnet address above is the deployment reference supplied for this project. The testnet address is not available in the current repository and must be added after a testnet deployment is completed.
 
-## Architecture Overview
+### BOT Chain network configuration
 
-```
-Frontend (Next.js)
-    │
-    │ REST API + JWT
-    ▼
-Backend (FastAPI)
-  ├── Auth Routes
-  ├── Elderly Routes
-  ├── Check-in Routes
-  ├── Caregiver Routes
-  ├── Healthcare Routes
-  └── AI Pipeline
-        ├── TranscriptionService (Whisper)
-        ├── VoiceAnalysisService (librosa)
-        ├── LanguageAnalysisService (rule-based + LLM-ready)
-        ├── FacialAnalysisService (OpenCV/MediaPipe)
-        └── RiskScoringService
-    │
-    ▼
-PostgreSQL Database
-```
+- **Network:** BOT Chain Mainnet
+- **Chain ID:** `677` (`0x2A5`)
+- **RPC URL:** `https://rpc.botchain.ai`
+- **Block explorer:** `https://scan.bohr.life`
+- **Native currency:** BOT
 
----
+## How to Use the Live Application
 
-## Folder Structure
+1. Open [tiaracare.my.id](https://tiaracare.my.id).
+2. Click **Connect Wallet** in the public navigation or caregiver dashboard.
+3. Approve the wallet connection in MetaMask or another EIP-1193-compatible browser wallet.
+4. Approve the network switch or add BOT Chain Mainnet when prompted.
+5. Use the application flows appropriate to your role.
 
-```
-tiara/
-├── frontend/              # Next.js App Router
-│   ├── app/               # Pages
-│   ├── components/        # UI components
-│   └── lib/               # API client, auth, types, hooks
-├── backend/               # FastAPI
-│   ├── app/
-│   │   ├── core/          # Config, security, constants
-│   │   ├── database/      # Session management
-│   │   ├── models/        # SQLAlchemy models
-│   │   ├── schemas/       # Pydantic schemas
-│   │   ├── routes/        # HTTP handlers
-│   │   ├── services/      # Business logic + AI pipeline
-│   │   ├── repositories/  # Database access
-│   │   └── scripts/       # Seed, migration helpers
-│   └── alembic/           # Database migrations
-├── docs/                  # Documentation (9 docs)
-├── docker-compose.yml
-├── .env.example
-└── README.md
-```
+The current wallet feature establishes a browser-wallet connection and network configuration. It does not expose a contract write action in the frontend until the deployed contract ABI and callable method are added to the repository.
 
----
+## Demo Accounts
 
-## How to Run
-
-### Prerequisites
-
-- Node.js 18+
-- Python 3.11+
-- PostgreSQL 15+
-- (Optional) Docker + Docker Compose
-
----
-
-### Option A: Docker Compose (Recommended)
-
-```bash
-# 1. Copy environment file
-cp .env.example .env
-
-# 2. Edit .env — set a strong JWT_SECRET_KEY
-nano .env
-
-# 3. Start all services
-docker-compose up --build
-
-# Frontend: http://localhost:3000
-# Backend:  http://localhost:8000
-# API docs: http://localhost:8000/docs
-```
-
----
-
-### Option B: Manual Setup
-
-#### Backend
-
-```bash
-cd backend
-
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Copy and configure environment
-cp ../.env.example .env
-# Edit .env with your PostgreSQL connection string and JWT secret
-
-# Run database migrations
-alembic upgrade head
-
-# Seed demo users
-python -m app.scripts.seed
-
-# Start backend
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-```
-
-#### Frontend
-
-```bash
-cd frontend
-
-# Install dependencies
-npm install
-
-# Copy and configure environment
-cp .env.local.example .env.local
-# NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
-
-# Start frontend
-npm run dev
-```
-
----
-
-## Database Setup
-
-```bash
-# Create PostgreSQL database
-psql -U postgres -c "CREATE USER tiara WITH PASSWORD 'tiara_password';"
-psql -U postgres -c "CREATE DATABASE tiara_db OWNER tiara;"
-
-# Run Alembic migrations
-cd backend
-alembic upgrade head
-```
-
----
-
-## How to Seed Demo Users
-
-```bash
-cd backend
-python -m app.scripts.seed
-```
-
-This creates:
-- Elderly user linked to a patient profile
-- Caregiver user with hashed PIN
-- Healthcare worker user
-- Caregiver-patient link
-- Healthcare-patient link
-- Initial question bank (8 questions, 4 categories)
-
----
-
-## Demo Credentials
+The seeded development environment includes these demo accounts:
 
 | Role | Email | Password |
 |---|---|---|
-| Elderly | `elderly@tiara.app` | `password123` |
+| Older adult | `elderly@tiara.app` | `password123` |
 | Caregiver | `caregiver@tiara.app` | `password123` |
-| Healthcare Worker | `doctor@tiara.app` | `password123` |
+| Healthcare worker | `doctor@tiara.app` | `password123` |
 
-**Caregiver Dashboard PIN**: `123456`
+**Caregiver dashboard PIN:** `123456`
 
----
+## Technology Stack
 
-## How the AI Pipeline Works
+| Layer | Technology |
+|---|---|
+| Frontend | Next.js, TypeScript, Tailwind CSS, Framer Motion, Recharts |
+| Backend | FastAPI, Python, SQLAlchemy, PostgreSQL, Alembic |
+| Authentication | JWT, bcrypt, caregiver PIN protection |
+| AI and media | Google GenAI SDK, faster-whisper, librosa, OpenCV |
+| Wallet integration | Browser EIP-1193 provider, MetaMask-compatible wallets |
+| Blockchain target | BOT Chain Mainnet |
 
-After a check-in session is completed:
+## Repository Structure
 
-1. **TranscriptionService** — Converts audio to text using `faster-whisper` (or fallback)
-2. **VoiceAnalysisService** — Extracts speech rate, hesitations, pauses, repetitions using `librosa`
-3. **LanguageAnalysisService** — Scores orientation, memory recall, coherence, vocabulary (rule-based)
-4. **FacialAnalysisService** — Basic face detection and video duration using `OpenCV`
-5. **RiskScoringService** — Computes composite risk score (0-100) with weighted components
-6. **AlertService** — Generates caregiver alerts based on thresholds and trends
-7. **RecommendationService** — Creates care recommendations based on risk level and indicators
-
-All services use **provider abstraction** — real implementations when libraries are available, graceful non-fake fallbacks when not.
-
-### Adding a Real AI Model
-
-To plug in a custom cognitive decline model:
-
-```python
-# backend/app/services/risk_scoring_service.py
-class CustomModelProvider(BaseRiskScoringProvider):
-    def score(self, inputs: RiskScoringInput) -> RiskScore:
-        # Your custom model logic here
-        ...
+```text
+TIARA_2/
+├── frontend/              # Next.js application
+│   ├── app/               # App Router pages and user flows
+│   ├── components/        # Shared UI components, including ConnectWallet
+│   └── lib/               # API client, authentication, and types
+├── backend/               # FastAPI application
+│   ├── app/               # Routes, models, services, and configuration
+│   └── alembic/           # Database migrations
+├── contracts/             # Solidity smart contracts
+│   └── WisdomLog.sol      # On-chain care checkpoint registry
+├── docs/                  # Product, architecture, API, AI, and security docs
+├── docker-compose.yml     # PostgreSQL, backend, and frontend services
+└── README.md
 ```
 
-Set `RISK_SCORING_PROVIDER=custom` in `.env`.
+## Local Setup
 
-### Setting Up Whisper
+### Prerequisites
+
+- Node.js 18 or newer
+- Python 3.11 or newer
+- PostgreSQL 15 or newer
+- Optional: Docker and Docker Compose
+
+### Backend
 
 ```bash
-pip install faster-whisper
+cd backend
+python -m venv venv
 
-# In .env:
-WHISPER_MODEL_SIZE=base  # Options: tiny, base, small, medium, large
+# Windows PowerShell
+venv\Scripts\Activate.ps1
+
+# macOS/Linux
+# source venv/bin/activate
+
+pip install -r requirements.txt
+alembic upgrade head
+python -m app.scripts.seed
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-### Configuring Guidance AI (LLM)
+### Frontend
+
+Open a second terminal:
 
 ```bash
-# In .env:
-LLM_PROVIDER=openai  # or: anthropic, gemini, none (uses rule-based fallback)
-LLM_API_KEY=your-api-key-here
+cd frontend
+npm install
+npm run dev
 ```
 
----
+The frontend runs at `http://localhost:3000` and the backend API runs at `http://localhost:8000`. The API documentation is available at `http://localhost:8000/docs` when the backend is running.
 
-## Safety Disclaimer
+### Docker Compose
 
-> TIARA is a cognitive trend monitoring and caregiver support platform. It is **not** a medical diagnosis tool. All risk indicators are informational only. Outputs should not replace professional clinical assessment. TIARA encourages timely clinical consultation when patterns warrant it.
+From the repository root:
 
----
+```bash
+docker compose up --build
+```
 
-## Known Limitations
+Configure database credentials, JWT settings, and the backend URL through the environment variables documented in the project configuration before using Docker in production.
 
-- Whisper transcription requires a non-trivial model download (base model: ~150MB)
-- Facial analysis quality depends on lighting and camera angle
-- Language analysis uses rule-based heuristics in MVP — LLM integration improves accuracy
-- PDF generation requires WeasyPrint and its system dependencies
-- No real-time alert push notifications (polling or WebSocket upgrade needed)
-- Single caregiver per patient in MVP (multi-caregiver post-MVP)
+## AI Pipeline
 
----
+After a check-in is submitted, TIARA processes the session through these stages:
 
-## Future Improvements
+1. Transcription from recorded audio.
+2. Voice feature extraction, including speech rate and hesitation signals.
+3. Language analysis for orientation, memory recall, coherence, and vocabulary.
+4. Basic facial and video analysis when media is available.
+5. Composite cognitive trend scoring.
+6. Caregiver alerts and recommendations based on observed patterns.
 
-- Custom trained cognitive decline ML model
-- RAG with validated medical knowledge base (DSM-5, NICE guidelines)
-- Push notifications (mobile app or PWA)
-- WhatsApp/email caregiver alerts
-- FHIR-compliant healthcare portal
-- Multi-patient caregiver management
-- Offline PWA mode
-- Automated model training pipeline
-- Media encryption at rest
-- GDPR-compliant data deletion workflow
-- Longitudinal baseline calibration per patient
+All results are informational indicators. They are not diagnoses.
 
----
+## Security and Privacy
+
+- Authentication uses JWT access tokens.
+- Caregiver dashboard access requires a separate PIN.
+- Camera and microphone flows require user consent.
+- The system should be deployed with strong secrets and protected database credentials.
+- Do not commit `.env` files, API keys, private keys, or wallet seed phrases.
 
 ## Documentation
 
-Full documentation in `/docs`:
+Additional project documentation is available in [`docs/`](docs/), including:
 
-| File | Content |
-|---|---|
-| `01-product-requirements.md` | What TIARA is, goals, safety positioning |
-| `02-mvp-scope.md` | MVP features and success criteria |
-| `03-system-architecture.md` | Tech stack and architecture diagrams |
-| `04-database-design.md` | All tables, columns, and relationships |
-| `05-api-specification.md` | All endpoints with request/response examples |
-| `06-ai-pipeline.md` | Full AI pipeline design and code patterns |
-| `07-security-and-privacy.md` | Auth, RBAC, PIN, consent, media privacy |
-| `08-development-roadmap.md` | 10-phase implementation plan |
-| `09-demo-script.md` | Step-by-step competition demo script |
+- [Product requirements](docs/01-product-requirements.md)
+- [MVP scope](docs/02-mvp-scope.md)
+- [System architecture](docs/03-system-architecture.md)
+- [Database design](docs/04-database-design.md)
+- [API specification](docs/05-api-specification.md)
+- [AI pipeline](docs/06-ai-pipeline.md)
+- [Security and privacy](docs/07-security-and-privacy.md)
+- [Development roadmap](docs/08-development-roadmap.md)
+- [Demo script](docs/09-demo-script.md)
 
----
+## Known Limitations
 
-## API Documentation
+- The repository includes the `WisdomLog.sol` source, but the generated contract ABI is not checked in.
+- The frontend wallet connection does not yet submit a contract write transaction.
+- The testnet contract address is not available in the current project configuration.
+- AI model quality depends on available models, media quality, and runtime configuration.
+- TIARA must not be used as a substitute for professional medical evaluation.
 
-When backend is running: [http://localhost:8000/docs](http://localhost:8000/docs) (Swagger UI)
+## Team
 
----
-
-<br>
-<div align="left">
-  <h2>Meet the Team</h2>
-  <p>The people behind Tiara</p>
-</div>
-
-<a href="#"><img width="144px" height="180px" src="https://drive.google.com/uc?export=view&id=17JzgCaF45gCTXnlIglXVKpq05sTQq5Vx" alt=""/></a> | <a href="#"><img width="144px" height="180px" src="https://drive.google.com/uc?export=view&id=1eOFVxZgBGwHtyDeV7OwQkiE4X2GUxEJE" alt=""/></a> | <a href="#"><img width="144px" height="180px" src="https://drive.google.com/uc?export=view&id=1kbe9CbYZBaLMgQ-PSwiz179-lZVjKZ9v" alt=""/></a> | <a href="#"><img width="144px" height="180px" src="https://drive.google.com/uc?export=view&id=17fSXYU6hc4AbKMvgcrPub7wiV55OcjNr" alt=""/></a> |
-| --- | --- | --- | --- |
-| <div align="left"><h3><b>Muhammad Aris Maulana</b></h3></div> | <div align="left"><h3><b>Nazla Azzahra Hermana</b></h3></div> | <div align="left"><h3><b>Ladya Kalascha</b></h3></div> | <div align="left"><h3><b>Muhammad Azka Subhan</b></h3></div> |
-
+TIARA is built by the project team for the BOT Chain hackathon.

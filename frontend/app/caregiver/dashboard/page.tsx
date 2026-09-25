@@ -33,6 +33,7 @@ import {
 import { caregiverApi, guidanceApi } from "@/lib/api";
 import { useAuth } from "@/lib/auth/AuthContext";
 import { ProtectedRoute } from "@/components/shared/ProtectedRoute";
+import { ConnectWallet } from "@/components/shared/ConnectWallet";
 import ReactMarkdown from 'react-markdown';
 
 interface TrendPoint {
@@ -260,7 +261,7 @@ function CaregiverDashboardContent() {
       {/* ── Main Workspace ──────────────────────────────────── */}
       <main className="flex-1 flex flex-col min-w-0 overflow-y-auto">
         {/* Header */}
-        <header className="h-16 bg-card border-b border-border flex items-center justify-between px-8 sticky top-0 z-30">
+        <header className="h-20 min-h-20 bg-card border-b border-border flex items-center justify-between px-8 sticky top-0 z-30">
           <div className="flex items-center gap-3.5">
             <div className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center font-bold text-primary-dark">
               {patient?.full_name ? patient.full_name[0] : "P"}
@@ -273,7 +274,7 @@ function CaregiverDashboardContent() {
             </div>
           </div>
 
-          <div>
+          <div className="flex items-center gap-3">
             {currentRiskLevel === "high" ? (
               <span className="risk-badge-high">● High Risk Status</span>
             ) : currentRiskLevel === "medium" ? (
@@ -281,6 +282,7 @@ function CaregiverDashboardContent() {
             ) : (
               <span className="risk-badge-low">● Stable Status</span>
             )}
+            <ConnectWallet />
           </div>
         </header>
 

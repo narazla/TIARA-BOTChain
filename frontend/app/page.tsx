@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { ConnectWallet } from "@/components/shared/ConnectWallet";
 import {
   Shield,
   Heart,
@@ -67,6 +68,7 @@ export default function LandingPage() {
           </div>
 
           <div className="flex items-center gap-4">
+            <ConnectWallet />
             <Link
               href="/login"
               className="text-sm font-semibold text-white/80 hover:text-white transition-colors"

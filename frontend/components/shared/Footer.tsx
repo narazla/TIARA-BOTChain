@@ -52,6 +52,18 @@ export default function Footer() {
             <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-[#B8D5B8]">
               On-chain verification
             </h2>
+            <a
+              href="https://botchain.ai"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex h-12 items-center"
+            >
+              <img
+                src="/Asset4.png"
+                alt="BOT Chain"
+                className="h-10 w-auto max-w-[180px] object-contain"
+              />
+            </a>
             <p className="mt-4 text-sm text-white/65">
               Powered by{" "}
               <a

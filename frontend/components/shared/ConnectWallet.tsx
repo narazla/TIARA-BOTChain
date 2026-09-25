@@ -38,6 +38,15 @@ export function ConnectWallet() {
   const [error, setError] = useState<string | null>(null);
   const [isConnecting, setIsConnecting] = useState(false);
 
+  async function checkConnection(provider: EthereumProvider) {
+    try {
+      const accounts = (await provider.request({ method: "eth_accounts" })) as string[];
+      setAccount(accounts[0] || null);
+    } catch (err) {
+      console.error("Error checking wallet connection:", err);
+    }
+  }
+
   useEffect(() => {
     const provider = window.ethereum;
     if (!provider) return;
@@ -47,24 +56,19 @@ export function ConnectWallet() {
       setAccount(accounts[0] || null);
     };
 
-    void checkConnection(provider);
+    const connectionCheck = window.setTimeout(() => {
+      void checkConnection(provider);
+    }, 0);
     provider.on?.("accountsChanged", handleAccountsChanged);
 
     return () => {
+      window.clearTimeout(connectionCheck);
       provider.removeListener?.("accountsChanged", handleAccountsChanged);
     };
   }, []);
 
-  const checkConnection = async (provider: EthereumProvider) => {
-    try {
-      const accounts = (await provider.request({ method: "eth_accounts" })) as string[];
-      setAccount(accounts[0] || null);
-    } catch (err) {
-      console.error("Error checking wallet connection:", err);
-    }
-  };
-
   const connectWallet = async () => {
+    if (isConnecting) return;
     setError(null);
     const provider = typeof window !== "undefined" ? window.ethereum : undefined;
     if (!provider) {
@@ -100,7 +104,13 @@ export function ConnectWallet() {
       }
     } catch (err) {
       const error = err as EthereumError;
-      setError(error.message || "Failed to connect wallet");
+      const isRequestPending =
+        error.code === -32002 || error.message?.toLowerCase().includes("already pending");
+      setError(
+        isRequestPending
+          ? "A wallet request is already open. Approve or reject it in MetaMask, then try again."
+          : error.message || "Failed to connect wallet"
+      );
     } finally {
       setIsConnecting(false);
     }

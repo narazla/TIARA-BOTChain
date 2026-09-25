@@ -17,7 +17,7 @@ import {
   Waves,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth/AuthContext";
-import { checkinApi } from "@/lib/api";
+import { checkInApi } from "@/lib/api";
 import { ProtectedRoute } from "@/components/shared/ProtectedRoute";
 
 const QUESTIONS = [

@@ -66,3 +66,11 @@ export const guidanceApi = {
     return response.data;
   },
 };
+
+// --- CHECK-IN API ---
+export const checkinApi = {
+  submitCheckIn: async (data: any) => {
+    const response = await apiClient.post("/api/v1/elderly/check-in", data);
+    return response.data;
+  },
+};

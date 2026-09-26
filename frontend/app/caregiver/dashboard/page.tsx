@@ -576,10 +576,10 @@ function CaregiverDashboardContent() {
                   {/* Suggested Prompts */}
 <div className="bg-secondary/20 border-t border-border/60 px-6 py-3 flex gap-2 flex-wrap">
   {[
-    "How to adapt the living environment for dementia?",
-    "What daily stimulation activities help dementia patients?",
-    "How to maintain a daily routine for dementia care?",
-    "How can caregivers manage emotional stress and burnout?",
+    "How can the living environment be adapted for dementia?",
+    "What lighting and ventilation are helpful for dementia care?",
+    "How can home layouts be made safer for someone with dementia?",
+    "What visual labels and orientation aids can support dementia care?",
   ].map((prompt) => (
     <button
       key={prompt}

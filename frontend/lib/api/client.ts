@@ -1,6 +1,11 @@
 import axios, { AxiosInstance } from "axios";
 
-const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_URL =
+  process.env.NEXT_PUBLIC_BACKEND_URL ||
+  process.env.NEXT_PUBLIC_API_URL ||
+  (process.env.NODE_ENV === "development"
+    ? "http://localhost:8000"
+    : "https://tiara-botchain-production.up.railway.app");
 
 export const apiClient: AxiosInstance = axios.create({
   baseURL: API_URL,

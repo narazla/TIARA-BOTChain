@@ -1,4 +1,4 @@
-# TIARA - AI-Powered Cognitive Care DApp
+# TIARA - BOT Chain Care DApp
 
 <br>
 <div align="left">

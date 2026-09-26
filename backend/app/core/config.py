@@ -23,6 +23,8 @@ class Settings(BaseSettings):
     LLM_API_KEY: Optional[str] = None
 
     # CORS
+    # Comma-separated origins, for example:
+    # https://tiaracare.my.id,https://www.tiaracare.my.id,http://localhost:3000
     FRONTEND_URL: str = "http://localhost:3000"
     BACKEND_URL: str = "http://localhost:8000"
 

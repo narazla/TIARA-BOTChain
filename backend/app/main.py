@@ -11,6 +11,14 @@ from app.routes import auth_routes, elderly_routes, caregiver_routes
 logger = logging.getLogger(__name__)
 
 
+def get_allowed_origins() -> list[str]:
+    return [
+        origin.strip().rstrip("/")
+        for origin in settings.FRONTEND_URL.split(",")
+        if origin.strip()
+    ]
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Application startup and shutdown lifecycle."""
@@ -34,7 +42,7 @@ app = FastAPI(
 # ── CORS ────────────────────────────────────────────────────────
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Mengizinkan semua akses dari frontend manapun (aman untuk hackathon)
+    allow_origins=get_allowed_origins(),
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allow_headers=["Authorization", "Content-Type", "Accept"],

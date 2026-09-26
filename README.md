@@ -145,6 +145,22 @@ python -m app.scripts.seed
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
+For Render, set the service root directory to `backend` and use this start command:
+
+```bash
+uvicorn app.main:app --host 0.0.0.0 --port $PORT
+```
+
+Set these environment variables in Render:
+
+```text
+FRONTEND_URL=https://tiaracare.my.id,https://www.tiaracare.my.id
+DATABASE_URL=<your-render-postgres-connection-string>
+JWT_SECRET_KEY=<a-long-random-production-secret>
+```
+
+`FRONTEND_URL` accepts comma-separated origins so local development and Vercel preview URLs can be added when needed. The API CORS policy uses this value instead of allowing every origin.
+
 ### Frontend
 
 Open a second terminal:
@@ -154,6 +170,8 @@ cd frontend
 npm install
 npm run dev
 ```
+
+For the deployed frontend, configure `NEXT_PUBLIC_BACKEND_URL` in Vercel with the Render service URL, for example `https://tiara-backend.onrender.com`.
 
 The frontend runs at `http://localhost:3000` and the backend API runs at `http://localhost:8000`. The API documentation is available at `http://localhost:8000/docs` when the backend is running.
 

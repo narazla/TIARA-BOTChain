@@ -26,21 +26,25 @@ def _load_resources():
             _chunks = pickle.load(f)
 
 def get_rag_answer(pertanyaan: str) -> str:
-    _load_resources()
-
     # Detect apakah pertanyaan menggunakan Bahasa Inggris atau Indonesia
     is_english = any(word in pertanyaan.lower() for word in ["how", "what", "where", "why", "who", "adapt", "dementia", "care", "environment"])
 
-    # 1. Vector Search ke FAISS Database
-    pertanyaan_dengan_prefix = "query: " + pertanyaan
-    angka_pertanyaan = _model.encode([pertanyaan_dengan_prefix], normalize_embeddings=True)
-    skor, indeks = _index.search(np.array(angka_pertanyaan, dtype=np.float32), k=3)
-
     konteks = ""
-    for i in range(3):
-        nomor_chunk = indeks[0][i]
-        chunk_terkait = _chunks[nomor_chunk]
-        konteks += f"[Halaman {chunk_terkait['halaman']}]\n{chunk_terkait['teks']}\n\n"
+    try:
+        _load_resources()
+
+        # Vector Search ke FAISS Database
+        pertanyaan_dengan_prefix = "query: " + pertanyaan
+        angka_pertanyaan = _model.encode([pertanyaan_dengan_prefix], normalize_embeddings=True)
+        _, indeks = _index.search(np.array(angka_pertanyaan, dtype=np.float32), k=3)
+
+        for i in range(3):
+            nomor_chunk = indeks[0][i]
+            chunk_terkait = _chunks[nomor_chunk]
+            konteks += f"[Halaman {chunk_terkait['halaman']}]\n{chunk_terkait['teks']}\n\n"
+    except Exception as e:
+        # Keep the API available when the large embedding model cannot load on a small host.
+        print(f"[RAG WARNING] Local retrieval unavailable, using direct guidance fallback: {e}")
 
     # 2. Prompt untuk Gemini AI Sintesis
     prompt = f"""You are an assistant that helps caregivers care for people with dementia.
@@ -52,7 +56,7 @@ Always respond in the same language as the user's question, while ensuring all f
 Do not mention page numbers or document sources in your answer — just answer naturally as if speaking directly to the caregiver.
 
 Document context:
-{konteks}
+{konteks or "No local document context is currently available. Provide cautious general guidance and recommend professional consultation when appropriate."}
 
 Question: {pertanyaan}
 

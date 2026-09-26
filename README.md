@@ -166,8 +166,9 @@ JWT_SECRET_KEY=<a-long-random-production-secret>
 Create a Railway project with a **PostgreSQL** service and a backend service connected to this repository. Configure the backend service with:
 
 - **Root Directory:** `/backend`
-- **Build Command:** `pip install -r requirements.txt`
-- **Start Command:** `alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+- **Builder:** `Dockerfile`
+- **Build Command:** leave empty; the Dockerfile installs dependencies
+- **Start Command:** leave empty; the Dockerfile runs migrations and Uvicorn
 
 Add the same `FRONTEND_URL` and `JWT_SECRET_KEY` variables listed above. Copy Railway PostgreSQL&apos;s `DATABASE_URL` into the backend service variables. The backend automatically converts Railway&apos;s standard PostgreSQL URL to the async SQLAlchemy driver required by the application.
 

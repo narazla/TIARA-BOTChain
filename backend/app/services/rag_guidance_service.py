@@ -10,9 +10,9 @@ _model = None
 _index = None
 _chunks = None
 
-# Konfigurasi Auth Key Gemini (membaca dari .env atau fallback ke key aktif)
-API_KEY = os.getenv("GEMINI_API_KEY", "AQ.Ab8RN6KDRhfm_18CXXaNlJaEuoTzaDvlqOo0r3UVfw-bfM2V8w")
-client = genai.Client(api_key=API_KEY)
+# Gemini is optional at startup; the deterministic guidance fallback remains available.
+API_KEY = os.getenv("GEMINI_API_KEY")
+client = genai.Client(api_key=API_KEY) if API_KEY else None
 
 def _load_resources():
     global _model, _index, _chunks
@@ -58,18 +58,19 @@ Answer:"""
     # 3. Panggil Gemini API dengan Rotasi Model
     models_to_try = ["gemini-2.0-flash", "gemini-1.5-flash", "gemini-3.8-flash"]
 
-    for model_name in models_to_try:
-        try:
-            response = client.models.generate_content(
-                model=model_name,
-                contents=prompt
-            )
-            if response and response.text:
-                return response.text
-        except Exception as e:
-            print(f"[GEMINI WARNING Model {model_name}]: {e}")
-            time.sleep(1)
-            continue
+    if client:
+        for model_name in models_to_try:
+            try:
+                response = client.models.generate_content(
+                    model=model_name,
+                    contents=prompt
+                )
+                if response and response.text:
+                    return response.text
+            except Exception as e:
+                print(f"[GEMINI WARNING Model {model_name}]: {e}")
+                time.sleep(1)
+                continue
 
     # 4. Fallback Dinamis Berdasarkan Bahasa Pertanyaan
     if is_english:

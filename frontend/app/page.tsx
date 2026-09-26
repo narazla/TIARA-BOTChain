@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ConnectWallet } from "@/components/shared/ConnectWallet";
-import Footer from "@/components/shared/Footer";
 import { LiveOnChainStatus } from "@/components/shared/LiveOnChainStatus";
 import {
   Shield,
@@ -88,7 +87,7 @@ export default function LandingPage() {
       </nav>
 
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <section className="min-h-screen lg:h-screen pt-[60px] relative overflow-hidden bg-secondary flex items-center">
+      <section className="min-h-screen lg:min-h-[calc(100vh-60px)] pt-[60px] pb-12 relative overflow-hidden bg-secondary flex items-center">
         {/* Soft background orbs */}
         <div className="absolute top-20 left-20 w-[450px] h-[450px] bg-primary/5 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-10 left-10 w-96 h-96 bg-terracotta/5 rounded-full blur-3xl pointer-events-none" />
@@ -402,8 +401,6 @@ export default function LandingPage() {
           </div>
         </motion.div>
       </section>
-
-      <Footer />
 
     </div>
   );

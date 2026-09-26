@@ -84,6 +84,13 @@ interface ChatMessage {
   text: string;
 }
 
+const GUIDANCE_PROMPTS = [
+  "How can caregivers manage emotional stress and burnout?",
+  "How can caregiver burden be assessed in dementia care?",
+  "What interventions can reduce caregiver stress and improve quality of life?",
+  "How can caregivers support independence in daily activities?",
+];
+
 function CaregiverDashboardContent() {
   const router = useRouter();
   const { logout, user } = useAuth();
@@ -575,12 +582,7 @@ function CaregiverDashboardContent() {
                   
                   {/* Suggested Prompts */}
 <div className="bg-secondary/20 border-t border-border/60 px-6 py-3 flex gap-2 flex-wrap">
-  {[
-    "How can the living environment be adapted for dementia?",
-    "What lighting and ventilation are helpful for dementia care?",
-    "How can home layouts be made safer for someone with dementia?",
-    "What visual labels and orientation aids can support dementia care?",
-  ].map((prompt) => (
+    {GUIDANCE_PROMPTS.map((prompt) => (
     <button
       key={prompt}
       onClick={() => handleSendChat(prompt)}

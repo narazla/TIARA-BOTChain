@@ -1,6 +1,8 @@
 import os
 import time
 import pickle
+from pathlib import Path
+
 import faiss
 import numpy as np
 from google import genai
@@ -18,13 +20,14 @@ def _load_resources():
     global _model, _index, _chunks
     if _model is None:
         _model = SentenceTransformer("intfloat/multilingual-e5-large")
-        _index = faiss.read_index("app/services/rag_data/index_256token.faiss")
-        with open("app/services/rag_data/chunks_256token.pkl", "rb") as f:
+        data_dir = Path(__file__).resolve().parent / "rag_data"
+        _index = faiss.read_index(str(data_dir / "index_256token.faiss"))
+        with open(data_dir / "chunks_256token.pkl", "rb") as f:
             _chunks = pickle.load(f)
 
-_load_resources()
-
 def get_rag_answer(pertanyaan: str) -> str:
+    _load_resources()
+
     # Detect apakah pertanyaan menggunakan Bahasa Inggris atau Indonesia
     is_english = any(word in pertanyaan.lower() for word in ["how", "what", "where", "why", "who", "adapt", "dementia", "care", "environment"])
 

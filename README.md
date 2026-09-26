@@ -1,4 +1,4 @@
-# TIARA - BOT Chain Care DApp
+# TIARA — BOT Chain Care DApp
 
 <br>
 <div align="left">
@@ -14,11 +14,11 @@
 
 ## Overview
 
-TIARA (Thinking, Interaction, And Recall Assistant) is an AI-powered cognitive care platform for older adults, caregivers, and healthcare workers.
+TIARA (Thinking, Interaction, And Recall Assistant) is a decentralized AI-powered cognitive care platform that bridges empathetic caregiving with immutable on-chain record-keeping on BOT Chain Mainnet.
 
 The application combines daily AI-guided check-ins with caregiver workflows. It is designed to help families notice changes over time through conversation, voice, video, and language signals, while keeping the user experience supportive and non-clinical.
 
-The project also includes a Web3 wallet connection for the BOT Chain ecosystem and publishes the deployed contract reference used by the application.
+The platform combines daily AI-guided check-ins with caregiver workflows, Web3 wallet access, and a public smart contract reference for verifiable care checkpoints. Sensitive medical content remains off-chain while cryptographic records can provide a tamper-evident audit trail.
 
 ## Core User Flows
 
@@ -41,8 +41,8 @@ Login -> Patient monitoring -> Session history -> Longitudinal trends
 - **Dementia Guidance AI:** Evidence-informed caregiver guidance with a medical disclaimer.
 - **Role-based access:** Separate elderly, caregiver, and healthcare worker flows.
 - **Caregiver PIN protection:** An additional access step for sensitive caregiver insights.
-- **BOT Chain wallet connection:** Connects a browser wallet and switches to BOT Chain Mainnet when requested.
-- **On-chain deployment reference:** Provides a public explorer link for the deployed BOT Chain contract address.
+- **Decentralized Wisdom Logs & Smart Contract:** Secures longitudinal cognitive check-ins and audit trails directly on BOT Chain Mainnet (`0x9E71519cD8C72379caD79c6A6Fc5bf5FF261b149`), enabling tamper-proof and publicly verifiable data records.
+- **Web3 Wallet-Based Authentication:** Integrates MetaMask-compatible browser wallets to securely manage caregiver and family access without relying solely on centralized passwords.
 
 ## Deployment & Smart Contract
 
@@ -62,6 +62,10 @@ TIARA operates directly on BOT Chain Mainnet to provide a reliable production en
 - **RPC URL:** `https://rpc.botchain.ai`
 - **Block explorer:** `https://scan.bohr.life`
 - **Native currency:** BOT
+
+### Note on Frontend Integration
+
+TIARA operates directly on BOT Chain Mainnet (Chain ID: 677) with its smart contract fully deployed and verified. The frontend currently supports active Web3 wallet connection, network auto-switching, and live on-chain reference tracking. Full ABI write integration is designed for ongoing production scaling and will connect the caregiver workflows to callable contract methods once the generated ABI is checked into the repository.
 
 ## How to Use the Live Application
 

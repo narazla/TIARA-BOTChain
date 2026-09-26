@@ -34,6 +34,8 @@ import { caregiverApi, guidanceApi } from "@/lib/api";
 import { useAuth } from "@/lib/auth/AuthContext";
 import { ProtectedRoute } from "@/components/shared/ProtectedRoute";
 import { ConnectWallet } from "@/components/shared/ConnectWallet";
+import { LiveOnChainStatus } from "@/components/shared/LiveOnChainStatus";
+import { SecureFamilyKey } from "@/components/shared/SecureFamilyKey";
 import ReactMarkdown from 'react-markdown';
 
 interface TrendPoint {
@@ -320,6 +322,11 @@ function CaregiverDashboardContent() {
                       <p className="text-2xl font-bold font-serif-editorial text-foreground mt-2">4.5%</p>
                       <p className="text-xs text-primary-dark font-semibold mt-1">Normal speech pace</p>
                     </div>
+                  </div>
+
+                  <div className="grid gap-5 xl:grid-cols-2">
+                    <LiveOnChainStatus />
+                    <SecureFamilyKey />
                   </div>
 
                   {/* Chart and Alerts grid */}

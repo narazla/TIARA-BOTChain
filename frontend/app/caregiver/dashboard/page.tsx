@@ -114,7 +114,7 @@ function CaregiverDashboardContent() {
     },
   ]);
   const [chatLoading, setChatLoading] = useState(false);
-  const chatBottomRef = useRef<HTMLDivElement | null>(null);
+  const chatContainerRef = useRef<HTMLDivElement | null>(null);
 
   // Loading state
   const [loading, setLoading] = useState(true);
@@ -156,7 +156,10 @@ function CaregiverDashboardContent() {
 
   // Scroll chat to bottom
   useEffect(() => {
-    chatBottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    const chatContainer = chatContainerRef.current;
+    if (chatContainer) {
+      chatContainer.scrollTo({ top: chatContainer.scrollHeight, behavior: "smooth" });
+    }
   }, [chatMessages]);
 
   const handleSendChat = async (textToSend?: string) => {
@@ -537,7 +540,7 @@ function CaregiverDashboardContent() {
                   </div>
 
                  {/* Chat Area */}
-                  <div className="flex-1 overflow-y-auto p-6 space-y-4">
+                  <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-6 space-y-4">
                     {chatMessages.map((msg) => (
                       <div
                         key={msg.id}
@@ -568,7 +571,6 @@ function CaregiverDashboardContent() {
                         </div>
                       </div>
                     )}
-                    <div ref={chatBottomRef} />
                   </div>
                   
                   {/* Suggested Prompts */}

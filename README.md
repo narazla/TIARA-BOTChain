@@ -172,6 +172,8 @@ Create a Railway project with a **PostgreSQL** service and a backend service con
 
 Add the same `FRONTEND_URL` and `JWT_SECRET_KEY` variables listed above. Copy Railway PostgreSQL&apos;s `DATABASE_URL` into the backend service variables. The backend automatically converts Railway&apos;s standard PostgreSQL URL to the async SQLAlchemy driver required by the application.
 
+For the Railway Free plan, leave `ENABLE_LOCAL_RAG` unset or set it to `false`; the large local embedding model is disabled by default so caregiver guidance stays responsive. Set `GEMINI_API_KEY` to enable AI-generated answers. Set `ENABLE_LOCAL_RAG=true` only on a host with enough memory for the embedding model.
+
 ### Frontend
 
 Open a second terminal:

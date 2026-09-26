@@ -15,6 +15,7 @@ _chunks = None
 # Gemini is optional at startup; the deterministic guidance fallback remains available.
 API_KEY = os.getenv("GEMINI_API_KEY")
 client = genai.Client(api_key=API_KEY) if API_KEY else None
+ENABLE_LOCAL_RAG = os.getenv("ENABLE_LOCAL_RAG", "false").lower() == "true"
 
 def _load_resources():
     global _model, _index, _chunks
@@ -30,21 +31,22 @@ def get_rag_answer(pertanyaan: str) -> str:
     is_english = any(word in pertanyaan.lower() for word in ["how", "what", "where", "why", "who", "adapt", "dementia", "care", "environment"])
 
     konteks = ""
-    try:
-        _load_resources()
+    if ENABLE_LOCAL_RAG:
+        try:
+            _load_resources()
 
-        # Vector Search ke FAISS Database
-        pertanyaan_dengan_prefix = "query: " + pertanyaan
-        angka_pertanyaan = _model.encode([pertanyaan_dengan_prefix], normalize_embeddings=True)
-        _, indeks = _index.search(np.array(angka_pertanyaan, dtype=np.float32), k=3)
+            # Vector Search ke FAISS Database
+            pertanyaan_dengan_prefix = "query: " + pertanyaan
+            angka_pertanyaan = _model.encode([pertanyaan_dengan_prefix], normalize_embeddings=True)
+            _, indeks = _index.search(np.array(angka_pertanyaan, dtype=np.float32), k=3)
 
-        for i in range(3):
-            nomor_chunk = indeks[0][i]
-            chunk_terkait = _chunks[nomor_chunk]
-            konteks += f"[Halaman {chunk_terkait['halaman']}]\n{chunk_terkait['teks']}\n\n"
-    except Exception as e:
-        # Keep the API available when the large embedding model cannot load on a small host.
-        print(f"[RAG WARNING] Local retrieval unavailable, using direct guidance fallback: {e}")
+            for i in range(3):
+                nomor_chunk = indeks[0][i]
+                chunk_terkait = _chunks[nomor_chunk]
+                konteks += f"[Halaman {chunk_terkait['halaman']}]\n{chunk_terkait['teks']}\n\n"
+        except Exception as e:
+            # Keep the API available when the large embedding model cannot load on a small host.
+            print(f"[RAG WARNING] Local retrieval unavailable, using direct guidance fallback: {e}")
 
     # 2. Prompt untuk Gemini AI Sintesis
     prompt = f"""You are an assistant that helps caregivers care for people with dementia.

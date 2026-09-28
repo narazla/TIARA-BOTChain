@@ -1,5 +1,10 @@
 # TIARA — BOT Chain Care DApp
 
+Live app: https://www.tiaracare.my.id
+X: https://x.com/tiaracareai
+Contract (Mainnet): https://scan.botchain.ai/address/0x9E71519cD8C72379caD79c6A6Fc5bf5FF261b149
+Launch announcement: <PASTE_LINK_HERE>
+
 <br>
 <div align="left">
   <img
@@ -14,11 +19,9 @@
 
 ## Overview
 
-TIARA (Thinking, Interaction, And Recall Assistant) is a decentralized AI-powered cognitive care platform that bridges empathetic caregiving with immutable on-chain record-keeping on BOT Chain Mainnet.
+TIARA (Thinking, Interaction, And Recall Assistant) is an AI-powered cognitive care platform that supports families and caregivers.
 
-The application combines daily AI-guided check-ins with caregiver workflows. It is designed to help families notice changes over time through conversation, voice, video, and language signals, while keeping the user experience supportive and non-clinical.
-
-The platform combines daily AI-guided check-ins with caregiver workflows, Web3 wallet access, and a public smart contract reference for verifiable care checkpoints. Sensitive medical content remains off-chain while cryptographic records can provide a tamper-evident audit trail.
+TIARA helps families notice early cognitive changes through daily AI-guided check-ins (voice, video and language signals) and gives caregivers a PIN-protected dashboard with trends, alerts and recommendations. For this hackathon we added a Dementia Guidance chatbot grounded in Indonesian medical documents (RAG) and a smart contract on BOT Chain Mainnet where any answer can be minted as a permanent, publicly verifiable wisdom log.
 
 ## Core User Flows
 
@@ -38,44 +41,45 @@ Login -> Patient monitoring -> Session history -> Longitudinal trends
 - **Daily video/audio check-in:** AI-guided questions with consent-based media capture.
 - **AI analysis pipeline:** Transcription, voice feature extraction, language analysis, and risk scoring.
 - **Caregiver dashboard:** Cognitive trend charts, patient summaries, alerts, and recommendations.
-- **Dementia Guidance AI:** Evidence-informed caregiver guidance with a medical disclaimer.
+- **Dementia Guidance AI:** Answers are retrieved from validated documents (PNPK Dementia, Kemenkes caregiver guide) using RAG (multilingual-e5-large + FAISS), generated with Gemini, and returned in the language of the question.
 - **Role-based access:** Separate elderly, caregiver, and healthcare worker flows.
 - **Caregiver PIN protection:** An additional access step for sensitive caregiver insights.
-- **Decentralized Wisdom Logs & Smart Contract:** Secures longitudinal cognitive check-ins and audit trails directly on BOT Chain Mainnet (`0x9E71519cD8C72379caD79c6A6Fc5bf5FF261b149`), enabling tamper-proof and publicly verifiable data records.
-- **Web3 Wallet-Based Authentication:** Integrates MetaMask-compatible browser wallets to securely manage caregiver and family access without relying solely on centralized passwords.
+- **On-chain Wisdom Log:** After the Dementia Guidance AI answers, the caregiver clicks the mint button in the chat. MetaMask asks them to sign a transaction that stores the question, the answer and a timestamp in the TiaraWisdomLog contract on BOT Chain Mainnet. Entries are public and verifiable on the block explorer. Only Q&A pairs that a user chooses to mint go on-chain; check-in data, reports and patient records stay in the app database.
 
 ## Deployment & Smart Contract
 
-The smart contract source code (`.sol`) is located in the [`contracts/WisdomLog.sol`](contracts/WisdomLog.sol) directory. TIARA's contract is fully deployed and verified on the **BOT Chain Mainnet**:
+The smart contract source code is located in [`contracts/WisdomLog.sol`](contracts/WisdomLog.sol). TIARA's deployed contract is available on both networks:
 
-| Network | Contract Name | Address / Explorer Link |
-|---|---|---|
-| **BOT Chain Mainnet** | WisdomLog.sol | `0x9E71519cD8C72379caD79c6A6Fc5bf5FF261b149` ([View on Explorer](https://scan.bohr.life/address/0x9E71519cD8C72379caD79c6A6Fc5bf5FF261b149)) |
-| **Network Architecture** | Production | Direct Mainnet Deployment (Chain ID: 677) ensuring immutable On-Chain Wisdom Logs. |
+| Network | Chain ID | Contract Name | Address / Explorer Link |
+|---|---|---|---|
+| **BOT Chain Testnet** | `968` | TiaraWisdomLog | `0x9E71519cD8C72379caD79c6A6Fc5bf5FF261b149` ([View on Explorer](https://scan.bohr.life/address/0x9E71519cD8C72379caD79c6A6Fc5bf5FF261b149)) |
+| **BOT Chain Mainnet** | `677` | TiaraWisdomLog | `0x9E71519cD8C72379caD79c6A6Fc5bf5FF261b149` ([View on Explorer](https://scan.botchain.ai/address/0x9E71519cD8C72379caD79c6A6Fc5bf5FF261b149)) |
 
-TIARA operates directly on BOT Chain Mainnet to provide a reliable production environment for its immutable On-Chain Wisdom Logs.
+The address is the same on both networks (same deployer wallet and nonce).
+
+Example mint transaction: <PASTE_TX_LINK_HERE>
 
 ### BOT Chain network configuration
 
 - **Network:** BOT Chain Mainnet
 - **Chain ID:** `677` (`0x2A5`)
 - **RPC URL:** `https://rpc.botchain.ai`
+- **Block explorer:** `https://scan.botchain.ai`
+- **Native currency:** BOT
+
+- **Network:** BOT Chain Testnet
+- **Chain ID:** `968`
+- **RPC URL:** `https://rpc.bohr.life`
 - **Block explorer:** `https://scan.bohr.life`
 - **Native currency:** BOT
 
-### Note on Frontend Integration
-
-TIARA operates directly on BOT Chain Mainnet (Chain ID: 677) with its smart contract fully deployed and verified. The frontend currently supports active Web3 wallet connection, network auto-switching, and live on-chain reference tracking. Full ABI write integration is designed for ongoing production scaling and will connect the caregiver workflows to callable contract methods once the generated ABI is checked into the repository.
-
 ## How to Use the Live Application
 
-1. Open [tiaracare.my.id](https://tiaracare.my.id).
-2. Click **Connect Wallet** in the public navigation or caregiver dashboard.
-3. Approve the wallet connection in MetaMask or another EIP-1193-compatible browser wallet.
-4. Approve the network switch or add BOT Chain Mainnet when prompted.
-5. Use the application flows appropriate to your role.
-
-The current wallet feature establishes a browser-wallet connection and network configuration. It does not expose a contract write action in the frontend until the deployed contract ABI and callable method are added to the repository.
+1. Open https://www.tiaracare.my.id
+2. Log in with the caregiver demo account, then enter PIN `123456`.
+3. Open the Dementia Guidance tab and ask a question or click a suggested one.
+4. Click the **Save to wisdom log ⛓️** button under the answer and approve in MetaMask. BOT Chain Mainnet is added or switched automatically. Minting costs about 0.01 BOT in gas.
+5. Click the **view transaction** link to see the entry on scan.botchain.ai.
 
 ## Demo Accounts
 
@@ -184,7 +188,7 @@ npm install
 npm run dev
 ```
 
-For the deployed frontend, configure `NEXT_PUBLIC_BACKEND_URL` in Vercel with the Render service URL, for example `https://tiara-backend.onrender.com`.
+The frontend reads `NEXT_PUBLIC_BACKEND_URL` first, then `NEXT_PUBLIC_API_URL`. Configure either variable in Vercel with the backend service URL, for example `https://tiara-backend.onrender.com`.
 
 The frontend runs at `http://localhost:3000` and the backend API runs at `http://localhost:8000`. The API documentation is available at `http://localhost:8000/docs` when the backend is running.
 
@@ -235,12 +239,13 @@ Additional project documentation is available in [`docs/`](docs/), including:
 
 ## Known Limitations
 
-- The repository includes the `WisdomLog.sol` source, but the generated contract ABI is not checked in.
-- The frontend wallet connection does not yet submit a contract write transaction.
-- The project intentionally uses a production-only Mainnet deployment for the On-Chain Wisdom Log.
+- On-chain wisdom logs are public, so personal patient information must not be minted.
+- Minting needs a small amount of BOT for gas.
+- RAG is used only in Dementia Guidance chat, while check-in analysis uses transcription, voice and language analysis without RAG.
+- Some dashboard summary cards show sample values.
 - AI model quality depends on available models, media quality, and runtime configuration.
 - TIARA must not be used as a substitute for professional medical evaluation.
 
 ## Team
 
-TIARA is built by the project team for the BOT Chain hackathon.
+Built by Nazla Azzahra Hermana (GitHub: narazla) for the BOT Chain hackathon. The base TIARA platform (check-ins and dashboards) was built earlier as a team project; the RAG guidance chatbot, the TiaraWisdomLog smart contract and the on-chain mint flow were built for this hackathon.

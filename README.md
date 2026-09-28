@@ -244,4 +244,4 @@ Additional project documentation is available in [`docs/`](docs/), including:
 
 ## Team
 
-Built by Nazla Azzahra Hermana (GitHub: narazla) for the BOT Chain hackathon. The base TIARA platform (check-ins and dashboards) was built earlier as a team project.
+Built by Nazla Azzahra Hermana as a hackathon project on BOT Chain. The base TIARA platform (check-ins and dashboards) was built earlier as a team project.

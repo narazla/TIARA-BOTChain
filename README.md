@@ -1,8 +1,7 @@
 # TIARA — BOT Chain Care DApp
 
-Live app: https://www.tiaracare.my.id
+Live app: https://www.tiaracare.my.id, 
 X: https://x.com/tiaracareai
-Contract (Mainnet): https://scan.botchain.ai/address/0x9E71519cD8C72379caD79c6A6Fc5bf5FF261b149
 
 <br>
 <div align="left">

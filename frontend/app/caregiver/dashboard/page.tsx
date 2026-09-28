@@ -1,9 +1,10 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { BrowserProvider, Contract } from "ethers";
 import {
   LayoutDashboard,
   AlertTriangle,
@@ -91,6 +92,22 @@ const GUIDANCE_PROMPTS = [
   "How can caregivers support independence in daily activities?",
 ];
 
+const WISDOM_LOG_CONTRACT_ADDRESS = "0x9E71519cD8C72379caD79c6A6Fc5bf5FF261b149";
+const WISDOM_LOG_ABI = ["function mintWisdom(string question, string answer)"];
+const BOT_CHAIN_PARAMS = {
+  chainId: "0x2a5",
+  chainName: "BOT Chain Mainnet",
+  nativeCurrency: { name: "BOT", symbol: "BOT", decimals: 18 },
+  rpcUrls: ["https://rpc.botchain.ai"],
+  blockExplorerUrls: ["https://scan.botchain.ai"],
+};
+
+type WisdomLogStatus =
+  | { state: "idle" }
+  | { state: "pending" }
+  | { state: "done"; hash: string }
+  | { state: "error" };
+
 function CaregiverDashboardContent() {
   const router = useRouter();
   const { logout, user } = useAuth();
@@ -121,6 +138,7 @@ function CaregiverDashboardContent() {
     },
   ]);
   const [chatLoading, setChatLoading] = useState(false);
+  const [wisdomLogStatuses, setWisdomLogStatuses] = useState<Record<string, WisdomLogStatus>>({});
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
 
   // Loading state
@@ -207,6 +225,45 @@ function CaregiverDashboardContent() {
     localStorage.removeItem("tiara_caregiver_token");
     logout();
     router.push("/login");
+  };
+
+  const handleSaveToWisdomLog = async (messageId: string, question: string, answer: string) => {
+    const ethereum = (window as any).ethereum;
+
+    if (!ethereum) {
+      alert("Please install MetaMask to save to the wisdom log.");
+      return;
+    }
+
+    setWisdomLogStatuses((prev) => ({ ...prev, [messageId]: { state: "pending" } }));
+
+    try {
+      await ethereum.request({ method: "eth_requestAccounts" });
+
+      try {
+        await ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: "0x2a5" }],
+        });
+      } catch (switchError: any) {
+        if (switchError?.code !== 4902) throw switchError;
+        await ethereum.request({
+          method: "wallet_addEthereumChain",
+          params: [BOT_CHAIN_PARAMS],
+        });
+      }
+
+      const provider = new BrowserProvider(ethereum);
+      const signer = await provider.getSigner();
+      const contract = new Contract(WISDOM_LOG_CONTRACT_ADDRESS, WISDOM_LOG_ABI, signer);
+      const tx = await contract.mintWisdom(question, answer);
+      await tx.wait();
+
+      setWisdomLogStatuses((prev) => ({ ...prev, [messageId]: { state: "done", hash: tx.hash } }));
+    } catch (error: any) {
+      console.error("Error saving wisdom log entry", error);
+      setWisdomLogStatuses((prev) => ({ ...prev, [messageId]: { state: "error" } }));
+    }
   };
 
   const currentRiskLevel = latestSession?.risk_level || "low";
@@ -548,7 +605,7 @@ function CaregiverDashboardContent() {
 
                  {/* Chat Area */}
                   <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-6 space-y-4">
-                    {chatMessages.map((msg) => (
+                    {chatMessages.map((msg, messageIndex) => (
                       <div
                         key={msg.id}
                         className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
@@ -563,9 +620,42 @@ function CaregiverDashboardContent() {
                           {msg.sender === "user" ? (
                             msg.text
                           ) : (
-                            <div className="prose prose-sm max-w-none dark:prose-invert">
-                              <ReactMarkdown>{msg.text}</ReactMarkdown>
-                            </div>
+                            <>
+                              <div className="prose prose-sm max-w-none dark:prose-invert">
+                                <ReactMarkdown>{msg.text}</ReactMarkdown>
+                              </div>
+                              {msg.id !== "welcome" && (() => {
+                                const question = [...chatMessages.slice(0, messageIndex)]
+                                  .reverse()
+                                  .find((previousMessage) => previousMessage.sender === "user")?.text;
+                                const status = wisdomLogStatuses[msg.id] || { state: "idle" as const };
+
+                                if (!question) return null;
+                                if (status.state === "done") {
+                                  return (
+                                    <a
+                                      href={`https://scan.botchain.ai/tx/${status.hash}`}
+                                      target="_blank"
+                                      rel="noreferrer"
+                                      className="mt-2 inline-block text-xs font-bold text-primary-dark underline"
+                                    >
+                                      ✓ Saved on BOT Chain, view transaction
+                                    </a>
+                                  );
+                                }
+
+                                return (
+                                  <button
+                                    type="button"
+                                    onClick={() => handleSaveToWisdomLog(msg.id, question, msg.text)}
+                                    disabled={status.state === "pending"}
+                                    className="mt-2 text-xs font-bold text-primary-dark bg-primary/10 hover:bg-primary/25 disabled:opacity-60 border border-primary/20 px-3 py-1.5 rounded-full transition-colors cursor-pointer disabled:cursor-not-allowed"
+                                  >
+                                    {status.state === "pending" ? "Saving..." : status.state === "error" ? "Failed, try again" : "Mint this answer ⛓️"}
+                                  </button>
+                                );
+                              })()}
+                            </>
                           )}
                         </div>
                       </div>
@@ -668,3 +758,4 @@ export default function CaregiverDashboardPage() {
     </ProtectedRoute>
   );
 }
+

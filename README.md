@@ -55,8 +55,6 @@ The smart contract source code is located in [`contracts/WisdomLog.sol`](contrac
 
 The address is the same on both networks (same deployer wallet and nonce).
 
-Example mint transaction: <PASTE_TX_LINK_HERE>
-
 ### BOT Chain network configuration
 
 - **Network:** BOT Chain Mainnet
@@ -76,7 +74,7 @@ Example mint transaction: <PASTE_TX_LINK_HERE>
 1. Open https://www.tiaracare.my.id
 2. Log in with the caregiver demo account, then enter PIN `123456`.
 3. Open the Dementia Guidance tab and ask a question or click a suggested one.
-4. Click the **Save to wisdom log ⛓️** button under the answer and approve in MetaMask. BOT Chain Mainnet is added or switched automatically. Minting costs about 0.01 BOT in gas.
+4. Click the **Save to wisdom log** button under the answer and approve in MetaMask. BOT Chain Mainnet is added or switched automatically. Minting costs about 0.01 BOT in gas.
 5. Click the **view transaction** link to see the entry on scan.botchain.ai.
 
 ## Demo Accounts
@@ -246,4 +244,4 @@ Additional project documentation is available in [`docs/`](docs/), including:
 
 ## Team
 
-Built by Nazla Azzahra Hermana (GitHub: narazla) for the BOT Chain hackathon. The base TIARA platform (check-ins and dashboards) was built earlier as a team project; the RAG guidance chatbot, the TiaraWisdomLog smart contract and the on-chain mint flow were built for this hackathon.
+Built by Nazla Azzahra Hermana (GitHub: narazla) for the BOT Chain hackathon. The base TIARA platform (check-ins and dashboards) was built earlier as a team project.
